@@ -1,51 +1,272 @@
 {
     "acq580": {
         "name": "acq580",
-        "display_name": "acq580",
+        "display_name": "ACQ580",
         "type": "DEV",
         "visibility": "PUB",
         "allow_many": true,
         "description": "The acq580 app allows a doovit to interface with a acq580 device, and allows a user to use config to lay out precisely what is connected to the acq580 device, and allows full monitoring and control of the acq580 and its connected devices",
         "long_description": "README.md",
         "depends_on": [],
-        "owner_org_key": "FIX-ME",
+        "owner_org_key": "",
         "image_name": "ghcr.io/getdoover/acq580:main",
-        "container_registry_profile_key": "FIX-ME",
+        "container_registry_profile_key": "",
         "build_args": "--platform linux/amd64,linux/arm64",
+        "lambda_config": {},
+        "organisation_id": null,
+        "key": null,
+        "owner_org_id": null,
+        "code_repo_id": null,
+        "container_registry_profile_id": null,
+        "repo_branch": "main",
+        "icon_url": "https://cdn.worldvectorlogo.com/logos/abb-1.svg",
+        "staging_config": {},
+        "export_config_command": null,
+        "run_command": null,
+        "lambda_arn": null,
         "config_schema": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "$id": "",
             "title": "Application Config",
             "type": "object",
             "properties": {
-                "digital_outputs_enabled": {
-                    "title": "Digital Outputs Enabled",
-                    "x-name": "digital_outputs_enabled",
-                    "x-hidden": false,
-                    "type": "boolean",
-                    "default": true
-                },
-                "a_funny_message": {
-                    "title": "A Funny Message",
-                    "x-name": "a_funny_message",
-                    "x-hidden": false,
-                    "type": "string"
-                },
-                "simulator_app_key": {
-                    "format": "doover-application",
-                    "title": "Simulator App Key",
-                    "x-name": "simulator_app_key",
+                "display_name": {
+                    "title": "Display Name",
+                    "x-name": "display_name",
                     "x-hidden": false,
                     "type": "string",
-                    "description": "The app key for the simulator"
+                    "description": "Name to display for this drive instance",
+                    "default": "ACQ580 Drive"
+                },
+                "modbus_connection": {
+                    "title": "Modbus Connection",
+                    "x-name": "modbus_connection",
+                    "x-hidden": false,
+                    "type": "object",
+                    "properties": {
+                        "host": {
+                            "title": "Host",
+                            "x-name": "host",
+                            "x-hidden": false,
+                            "type": "string",
+                            "description": "IP address or hostname of the Modbus gateway/drive",
+                            "default": "192.168.1.100"
+                        },
+                        "port": {
+                            "title": "Port",
+                            "x-name": "port",
+                            "x-hidden": false,
+                            "type": "integer",
+                            "description": "Modbus TCP port",
+                            "default": 502
+                        },
+                        "unit_id": {
+                            "title": "Unit ID",
+                            "x-name": "unit_id",
+                            "x-hidden": false,
+                            "type": "integer",
+                            "description": "Modbus unit/slave ID (1-247)",
+                            "default": 1
+                        },
+                        "timeout": {
+                            "title": "Timeout",
+                            "x-name": "timeout",
+                            "x-hidden": false,
+                            "type": "number",
+                            "description": "Communication timeout in seconds",
+                            "default": 3.0
+                        }
+                    },
+                    "additionalElements": true,
+                    "required": []
+                },
+                "connected_load": {
+                    "title": "Connected Load",
+                    "x-name": "connected_load",
+                    "x-hidden": false,
+                    "type": "object",
+                    "properties": {
+                        "load_type": {
+                            "title": "Load Type",
+                            "x-name": "load_type",
+                            "x-hidden": false,
+                            "type": "string",
+                            "description": "Type of load connected (e.g., Pump, Fan, Conveyor, Compressor)",
+                            "default": "Pump"
+                        },
+                        "load_name": {
+                            "title": "Load Name",
+                            "x-name": "load_name",
+                            "x-hidden": false,
+                            "type": "string",
+                            "description": "Name/identifier for the connected load",
+                            "default": "Main Pump"
+                        },
+                        "rated_power_kw": {
+                            "title": "Rated Power kW",
+                            "x-name": "rated_power_kw",
+                            "x-hidden": false,
+                            "type": "number",
+                            "description": "Rated power of the connected motor in kW",
+                            "default": 11.0
+                        },
+                        "rated_speed_rpm": {
+                            "title": "Rated Speed RPM",
+                            "x-name": "rated_speed_rpm",
+                            "x-hidden": false,
+                            "type": "number",
+                            "description": "Rated speed of the connected motor in RPM",
+                            "default": 1450.0
+                        },
+                        "rated_voltage_v": {
+                            "title": "Rated Voltage V",
+                            "x-name": "rated_voltage_v",
+                            "x-hidden": false,
+                            "type": "number",
+                            "description": "Rated voltage of the connected motor in Volts",
+                            "default": 400.0
+                        },
+                        "rated_current_a": {
+                            "title": "Rated Current A",
+                            "x-name": "rated_current_a",
+                            "x-hidden": false,
+                            "type": "number",
+                            "description": "Rated current of the connected motor in Amps",
+                            "default": 22.0
+                        }
+                    },
+                    "additionalElements": true,
+                    "required": []
+                },
+                "operating_parameters": {
+                    "title": "Operating Parameters",
+                    "x-name": "operating_parameters",
+                    "x-hidden": false,
+                    "type": "object",
+                    "properties": {
+                        "max_frequency_hz": {
+                            "title": "Max Frequency Hz",
+                            "x-name": "max_frequency_hz",
+                            "x-hidden": false,
+                            "type": "number",
+                            "description": "Maximum output frequency limit in Hz",
+                            "default": 50.0
+                        },
+                        "min_frequency_hz": {
+                            "title": "Min Frequency Hz",
+                            "x-name": "min_frequency_hz",
+                            "x-hidden": false,
+                            "type": "number",
+                            "description": "Minimum output frequency limit in Hz",
+                            "default": 0.0
+                        },
+                        "accel_time_s": {
+                            "title": "Accel Time s",
+                            "x-name": "accel_time_s",
+                            "x-hidden": false,
+                            "type": "number",
+                            "description": "Acceleration time in seconds (0 to max freq)",
+                            "default": 10.0
+                        },
+                        "decel_time_s": {
+                            "title": "Decel Time s",
+                            "x-name": "decel_time_s",
+                            "x-hidden": false,
+                            "type": "number",
+                            "description": "Deceleration time in seconds (max freq to 0)",
+                            "default": 10.0
+                        }
+                    },
+                    "additionalElements": true,
+                    "required": []
+                },
+                "monitoring": {
+                    "title": "Monitoring",
+                    "x-name": "monitoring",
+                    "x-hidden": false,
+                    "type": "object",
+                    "properties": {
+                        "poll_interval_s": {
+                            "title": "Poll Interval s",
+                            "x-name": "poll_interval_s",
+                            "x-hidden": false,
+                            "type": "number",
+                            "description": "How often to poll drive status (seconds)",
+                            "default": 2.0
+                        },
+                        "log_data_to_channel": {
+                            "title": "Log Data to Channel",
+                            "x-name": "log_data_to_channel",
+                            "x-hidden": false,
+                            "type": "boolean",
+                            "description": "Enable logging of drive data to a channel",
+                            "default": true
+                        }
+                    },
+                    "additionalElements": true,
+                    "required": []
+                },
+                "alarm_thresholds": {
+                    "title": "Alarm Thresholds",
+                    "x-name": "alarm_thresholds",
+                    "x-hidden": false,
+                    "type": "object",
+                    "properties": {
+                        "high_current_%": {
+                            "title": "High Current %",
+                            "x-name": "high_current_%",
+                            "x-hidden": false,
+                            "type": "number",
+                            "description": "Alarm when current exceeds this % of rated",
+                            "default": 90.0
+                        },
+                        "high_temperature_c": {
+                            "title": "High Temperature C",
+                            "x-name": "high_temperature_c",
+                            "x-hidden": false,
+                            "type": "number",
+                            "description": "Alarm when drive temperature exceeds this (Celsius)",
+                            "default": 70.0
+                        },
+                        "low_dc_bus_v": {
+                            "title": "Low DC Bus V",
+                            "x-name": "low_dc_bus_v",
+                            "x-hidden": false,
+                            "type": "number",
+                            "description": "Alarm when DC bus voltage drops below this",
+                            "default": 500.0
+                        },
+                        "high_dc_bus_v": {
+                            "title": "High DC Bus V",
+                            "x-name": "high_dc_bus_v",
+                            "x-hidden": false,
+                            "type": "number",
+                            "description": "Alarm when DC bus voltage exceeds this",
+                            "default": 750.0
+                        }
+                    },
+                    "additionalElements": true,
+                    "required": []
+                },
+                "control_enabled": {
+                    "title": "Control Enabled",
+                    "x-name": "control_enabled",
+                    "x-hidden": false,
+                    "type": "boolean",
+                    "description": "Allow remote start/stop and speed control commands",
+                    "default": true
                 }
             },
             "additionalElements": true,
             "required": [
-                "a_funny_message",
-                "simulator_app_key"
+                "modbus_connection",
+                "connected_load",
+                "operating_parameters",
+                "monitoring",
+                "alarm_thresholds"
             ]
         },
-        "organisation_id": "FIX-ME"
+        "id": "145389198327712001",
+        "banner_url": null
     }
 }

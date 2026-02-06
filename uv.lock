@@ -8,6 +8,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "pydoover" },
+    { name = "pymodbus" },
     { name = "transitions" },
 ]
 
@@ -24,6 +25,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "pydoover", specifier = ">=0.4.13" },
+    { name = "pymodbus", specifier = ">=3.11.4" },
     { name = "transitions", specifier = ">=0.9.2" },
 ]
 
@@ -527,6 +529,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/f7/ff/5a23850d0604bdd9d1219f50caa7a488acf72aedc754cfc40bfce4a55be3/pydoover-0.4.13.tar.gz", hash = "sha256:29bc2f263536b0e279ab5d3b7dc66aadfbe26dd5a0cf77629e46fb38f4e50102", size = 200596, upload-time = "2025-07-30T03:18:19.573Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e2/54/031b0ceeae6312abe5539eeef08f428291ec5a49c6c6899c0d1a78309b7e/pydoover-0.4.13-py3-none-any.whl", hash = "sha256:4945bba3e97f55dfdedd7fb0e7a1cc24629ad1b6cf44528f9c3a81a0c9464204", size = 145139, upload-time = "2025-07-30T03:18:18.253Z" },
+]
+
+[[package]]
+name = "pymodbus"
+version = "3.11.4"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/2a/af/bbb716301ab9c60f0702c3cdf72cc0e373286a5648fe16bc4431400489dc/pymodbus-3.11.4.tar.gz", hash = "sha256:6910e385cb6b2f983cd457e9ecee2ff580dbb23cf3d84aefec0845e71edd606a", size = 163422, upload-time = "2025-11-30T10:36:33.717Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/02/80/84c32440949c77f2c201c38e5fa56fd8f19da31bf24df55bdbdaba67767c/pymodbus-3.11.4-py3-none-any.whl", hash = "sha256:89865929f53bd5e32b4076dde00ee86d9b8afb1686832ed74e69d55df22729c3", size = 166002, upload-time = "2025-11-30T10:36:31.992Z" },
 ]
 
 [[package]]
